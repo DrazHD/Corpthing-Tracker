@@ -4,7 +4,7 @@ require('dotenv').config();
 const PUSHBULLET_API_KEY = process.env.PUSHBULLET_API_KEY;
 
 // Reddit user to search for
-const USERNAME = 'drazhd';
+const USERNAME = 'corpthing';
 
 // Do not change
 const ENDPOINT = `https://api.pushshift.io/reddit/search/comment/?author=${USERNAME}&sort=desc`;
