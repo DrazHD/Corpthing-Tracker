@@ -2,6 +2,9 @@
 
 Tracks /u/CorpThing Reddit comments and send a Pushbullet notification on each comment
 
+##### Example with /u/DrazHD
+![Terminal Preview](/assets/img/terminal-preview.png)
+
 ## Getting Started
 
 ### Prerequisites
