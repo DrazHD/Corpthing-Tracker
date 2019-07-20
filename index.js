@@ -43,7 +43,7 @@ const checkForComments = async lastTimestamp => {
   const response = await axios.get(`${ENDPOINT}`);
   const comments = response.data.data;
 
-  if (LOG_EVERYTHING === true) {
+  if (LOG_EVERYTHING === true && comments[0].created_utc <= lastTimestamp) {
     log(`No new comments, checking again in ${INTERVAL / 1000} seconds...`);
     return lastTimestamp;
   }
