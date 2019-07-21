@@ -1,36 +1,8 @@
 const config = require('./config');
 const axios = require('axios');
-const pushbullet = require('pushbullet');
 
 // DO NOT EDIT, edit the config.js file instead
-const {
-  PUSHBULLET_API_KEY,
-  USERNAME,
-  ENDPOINT,
-  INTERVAL,
-  DEVICE_NICKNAME,
-  LOG_EVERYTHING,
-} = config;
-
-// Create a new pusher
-const pusher = new pushbullet(PUSHBULLET_API_KEY);
-
-// Device created in Pushbullet
-const deviceOptions = {
-  nickname: DEVICE_NICKNAME,
-};
-
-// Device ID
-let deviceIden;
-
-pusher.createDevice(deviceOptions, (error, response) => {
-  if (error) {
-    log(JSON.stringify(error));
-    return;
-  }
-  deviceIden = response.iden;
-  log(`Pushbullet device created, id: ${deviceIden}`);
-});
+const { USERNAME, ENDPOINT, INTERVAL, LOG_EVERYTHING } = config;
 
 const lastComment = async () => {
   const response = await axios.get(`${ENDPOINT}&size=1`);
@@ -56,9 +28,6 @@ const checkForComments = async lastTimestamp => {
           comment.subreddit
         } | Permalink: https://reddit.com${comment.permalink}`,
       );
-
-      // Send link notification to your Pushbullet account
-      sendPushbulletLink(deviceIden, comment.permalink);
     }
   });
 
@@ -81,21 +50,6 @@ const getInitialComment = async () => {
 
 const log = message => {
   console.log(`${new Date().toUTCString()} - ${message}`);
-};
-
-const sendPushbulletLink = (device, permalink) => {
-  pusher.link(
-    device,
-    'Reddit',
-    `https://reddit.com${permalink}`,
-    `New comment from ${USERNAME}`,
-    (error, response) => {
-      if (error) {
-        log(error.message);
-      }
-      log('Pushbullet notification sent');
-    },
-  );
 };
 
 getInitialComment();
