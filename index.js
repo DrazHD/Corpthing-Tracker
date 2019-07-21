@@ -1,8 +1,18 @@
 const config = require('./config');
 const axios = require('axios');
+const webhook = require('webhook-discord');
 
 // DO NOT EDIT, edit the config.js file instead
-const { USERNAME, ENDPOINT, INTERVAL, LOG_EVERYTHING } = config;
+const {
+  DISCORD_HOOK_URL,
+  DISCORD_HOOK_NAME,
+  USERNAME,
+  ENDPOINT,
+  INTERVAL,
+  LOG_EVERYTHING,
+} = config;
+
+const Hook = new webhook.Webhook(DISCORD_HOOK_URL);
 
 const lastComment = async () => {
   const response = await axios.get(`${ENDPOINT}&size=1`);
@@ -23,6 +33,14 @@ const checkForComments = async lastTimestamp => {
   // Log all new comments
   comments.forEach(comment => {
     if (comment.created_utc > lastTimestamp) {
+      // Send message through Discord webhook
+      Hook.info(
+        DISCORD_HOOK_NAME,
+        `New comment: ${comment.body} | Subreddit: ${
+          comment.subreddit
+        } | Permalink: https://reddit.com${comment.permalink}`,
+      );
+
       log(
         `New comment: ${comment.body} | Subreddit: ${
           comment.subreddit
