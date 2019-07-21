@@ -1,6 +1,6 @@
 # Corpthing Tracker
 
-Tracks /u/CorpThing Reddit comments and send a Pushbullet notification on each comment
+Tracks /u/CorpThing Reddit comments and sends a notification through a Discord webhook
 
 ##### Example with /u/DrazHD
 ![Terminal Preview](/assets/img/terminal-preview.png)
@@ -12,7 +12,7 @@ Tracks /u/CorpThing Reddit comments and send a Pushbullet notification on each c
 ```
 npm
 node.js
-pushbullet api key
+discord server and a webhook url
 ```
 
 ### Installing
@@ -27,7 +27,7 @@ npm install
 
 ### Configuring
 
-- Edit SAMPLE.env to contain your [Pushbullet API key](https://www.pushbullet.com/#settings)
+- Edit SAMPLE.env to contain your [Discord webhook URL](https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - Rename the SAMPLE.env file to just .env
 - (Optional) edit config.js to your liking
 
