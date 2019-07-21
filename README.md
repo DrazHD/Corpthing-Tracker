@@ -3,7 +3,7 @@
 Tracks /u/CorpThing Reddit comments and sends a notification through a Discord webhook
 
 ##### Example with false positives
-![Terminal Preview](/assets/img/terminal-preview.png)
+![Terminal Preview](/assets/img/terminal-preview-hook.png)
 
 ## Getting Started
 
