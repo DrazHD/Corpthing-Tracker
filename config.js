@@ -1,5 +1,11 @@
 require('dotenv').config();
 
+// Create a new Discord server, create a new webhook from server settings, copy the url and place it in your .env file
+const DISCORD_HOOK_URL = process.env.DISCORD_HOOK_URL;
+
+// The name of the bot that will message each change
+const DISCORD_HOOK_NAME = 'Corpthing Tracker';
+
 // Reddit user to search for
 const USERNAME = 'corpthing';
 
@@ -14,6 +20,8 @@ const INTERVAL = 1000;
 const LOG_EVERYTHING = false;
 
 module.exports = {
+  DISCORD_HOOK_URL,
+  DISCORD_HOOK_NAME,
   USERNAME,
   ENDPOINT,
   INTERVAL,
