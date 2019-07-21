@@ -1,36 +1,18 @@
 const config = require('./config');
 const axios = require('axios');
-const pushbullet = require('pushbullet');
+const webhook = require('webhook-discord');
 
 // DO NOT EDIT, edit the config.js file instead
 const {
-  PUSHBULLET_API_KEY,
+  DISCORD_HOOK_URL,
+  DISCORD_HOOK_NAME,
   USERNAME,
   ENDPOINT,
   INTERVAL,
-  DEVICE_NICKNAME,
   LOG_EVERYTHING,
 } = config;
 
-// Create a new pusher
-const pusher = new pushbullet(PUSHBULLET_API_KEY);
-
-// Device created in Pushbullet
-const deviceOptions = {
-  nickname: DEVICE_NICKNAME,
-};
-
-// Device ID
-let deviceIden;
-
-pusher.createDevice(deviceOptions, (error, response) => {
-  if (error) {
-    log(JSON.stringify(error));
-    return;
-  }
-  deviceIden = response.iden;
-  log(`Pushbullet device created, id: ${deviceIden}`);
-});
+const Hook = new webhook.Webhook(DISCORD_HOOK_URL);
 
 const lastComment = async () => {
   const response = await axios.get(`${ENDPOINT}&size=1`);
@@ -51,14 +33,19 @@ const checkForComments = async lastTimestamp => {
   // Log all new comments
   comments.forEach(comment => {
     if (comment.created_utc > lastTimestamp) {
-      log(
+      // Send message through Discord webhook
+      Hook.info(
+        DISCORD_HOOK_NAME,
         `New comment: ${comment.body} | Subreddit: ${
           comment.subreddit
         } | Permalink: https://reddit.com${comment.permalink}`,
       );
 
-      // Send link notification to your Pushbullet account
-      sendPushbulletLink(deviceIden, comment.permalink);
+      log(
+        `New comment: ${comment.body} | Subreddit: ${
+          comment.subreddit
+        } | Permalink: https://reddit.com${comment.permalink}`,
+      );
     }
   });
 
@@ -81,21 +68,6 @@ const getInitialComment = async () => {
 
 const log = message => {
   console.log(`${new Date().toUTCString()} - ${message}`);
-};
-
-const sendPushbulletLink = (device, permalink) => {
-  pusher.link(
-    device,
-    'Reddit',
-    `https://reddit.com${permalink}`,
-    `New comment from ${USERNAME}`,
-    (error, response) => {
-      if (error) {
-        log(error.message);
-      }
-      log('Pushbullet notification sent');
-    },
-  );
 };
 
 getInitialComment();

@@ -1,7 +1,10 @@
 require('dotenv').config();
 
-// Your personal Pushbullet api key, READ THE README.md
-const PUSHBULLET_API_KEY = process.env.PUSHBULLET_API_KEY;
+// Create a new Discord server, create a new webhook from server settings, copy the url and place it in your .env file
+const DISCORD_HOOK_URL = process.env.DISCORD_HOOK_URL;
+
+// The name of the bot that will message each change
+const DISCORD_HOOK_NAME = 'Corpthing Tracker';
 
 // Reddit user to search for
 const USERNAME = 'corpthing';
@@ -12,18 +15,15 @@ const ENDPOINT = `https://api.pushshift.io/reddit/search/comment/?author=${USERN
 // Pinging interval in milliseconds, reddit api allows for 60 requests in one minute, which equals to 1000 ms
 const INTERVAL = 1000;
 
-// Device created in Pushbullet
-const DEVICE_NICKNAME = 'corpthing-reddit-tracker';
-
 // Whether the console shoud log even when new comments weren't found, wouldn't recommend with a log interval value
 // values: true, false
 const LOG_EVERYTHING = false;
 
 module.exports = {
-  PUSHBULLET_API_KEY,
+  DISCORD_HOOK_URL,
+  DISCORD_HOOK_NAME,
   USERNAME,
   ENDPOINT,
   INTERVAL,
-  DEVICE_NICKNAME,
   LOG_EVERYTHING,
 };
